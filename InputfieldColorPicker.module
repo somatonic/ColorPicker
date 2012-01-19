@@ -46,7 +46,7 @@ class InputfieldColorPicker extends Inputfield {
 		$out .= <<<_OUT
 <script type='text/javascript'>
 	$('#ColorPicker_$this->name').ColorPicker({
-
+		color: '#$this->value',
 		onShow: function (colpkr) {
 			$(colpkr).fadeIn(500);
 			return false;

@@ -1,0 +1,117 @@
+<?php
+
+/**
+ * An Inputfieldtype for handling Colors
+ * used by the FieldtypeColorPicker
+ *
+ * 19.01.2012 by Philipp "Soma" Urlich
+ * ColorPicker jQuery Plugin by http://www.eyecon.ro/colorpicker/
+ *
+ */
+
+class InputfieldColorPicker extends Inputfield {
+
+	const defaultMaxlength = 6; 
+
+	public static function getModuleInfo() {
+		return array(
+			'title' => 'ColorPicker',
+			'version' => 100,
+			'summary' => 'Provides and ColorPicker interface for defining hex color.',
+			'permanent' => false, 
+			'autoload' => false,
+			'requires' => array("FieldtypeColorPicker") 
+			);
+	}
+
+	public function __construct() {
+		parent::__construct();
+		$this->setAttribute('type', 'hidden'); 
+		$this->setAttribute('size', 10); 
+		$this->setAttribute('maxlength', self::defaultMaxlength); 
+	}
+
+
+	public function init() {
+		parent::init();
+		$this->config->styles->add($this->config->urls->InputfieldColorPicker . "colorpicker/css/colorpicker.css");
+		$this->config->scripts->add($this->config->urls->InputfieldColorPicker . "colorpicker/js/colorpicker.js");
+		
+	}
+
+
+	public function ___render() {
+		$out = "\n<p><div id='ColorPicker_$this->name' style='border:2px solid #444;display:block;width:40px;height:40px;background-color:#".$this->value."'></div>";
+		$out .= "<input " . $this->getAttributesString() . " /></p>";
+		$out .= <<<_OUT
+<script type='text/javascript'>
+	$('#ColorPicker_$this->name').ColorPicker({
+
+		onShow: function (colpkr) {
+			$(colpkr).fadeIn(500);
+			return false;
+		},
+		onHide: function (colpkr) {
+			$(colpkr).fadeOut(500);
+			return false;
+		},
+		onChange: function (hsb, hex, rgb) {
+			$('#ColorPicker_$this->name').css('backgroundColor', '#' + hex);
+			$('#Inputfield_$this->name').val(hex);
+		}
+	});
+
+</script>
+
+_OUT;
+
+		return $out; 
+	}
+
+	public function getAttributes() {
+		$attrs = parent::getAttributes();
+		if(empty($attrs['size'])) {
+			unset($attrs['size']); 
+			$attrs['class'] = (empty($attrs['class']) ? '' : $attrs['class'] . ' ') . 'InputfieldMaxWidth';
+		}
+		return $attrs; 
+	}
+
+	public function setAttribute($key, $value) {
+
+		if($key == 'maxlength' && !(int) $value) $value = ''; // blank string prevents a maxlength='0' attribute
+
+		if($key == 'value') { 
+			$value = trim($value); 
+			$maxlength = (int) $this->attr('maxlength'); 
+			if($maxlength > 0) $value = substr($value, 0, $maxlength); 
+		}
+
+		return parent::setAttribute($key, $value); 
+	}
+
+	public function ___getConfigInputfields() {
+		$inputfields = parent::___getConfigInputfields();
+
+		$field = $this->modules->get('InputfieldInteger');
+		$field->setAttribute('name', 'size'); 
+		$field->label = 'Size';
+		$field->setAttribute('value', $this->attr('size')); 
+		$field->setAttribute('size', 4); 
+		$field->description = 'The displayed width of this field (in characters). Set to 0 for full width.'; 
+		$inputfields->append($field);
+
+		$field = $this->modules->get('InputfieldInteger');
+		$field->setAttribute('name', 'maxlength'); 
+		$field->label = 'Maxlength';
+		$field->setAttribute('value', $this->attr('maxlength')); 
+		$field->setAttribute('size', 4); 
+		$field->description = 'The maximum length (in characters) that are allowed by this field.'; 
+		$inputfields->append($field);
+
+		return $inputfields; 
+	}
+
+
+	
+}

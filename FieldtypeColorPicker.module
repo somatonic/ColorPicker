@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * ProcessWire ColorPicker Fieldtype
+ * 19.01.2012 by Philipp "Soma" Urlich
+ * ColorPicker jQuery Plugin by http://www.eyecon.ro/colorpicker/
+ * 
+ * ProcessWire 2.x 
+ * Copyright (C) 2010 by Ryan Cramer 
+ * Licensed under GNU/GPL v2, see LICENSE.TXT
+ * 
+ * http://www.processwire.com
+ * http://www.ryancramer.com
+ *
+ */
+
+class FieldtypeColorPicker extends FieldtypeText {
+
+
+	public static function getModuleInfo() {
+		return array(
+			'title' => 'ColorPicker',
+			'version' => 100,
+			'summary' => 'Field that stores a hex color as string in a text field. Color is picked using a jQuery ColorPicker Plugin by http://www.eyecon.ro/colorpicker/',
+			'permanent' => false,
+			'autoload' => false,
+			'installs' => 'InputfieldColorPicker'
+			);
+	}
+
+	/**
+	 * Initialize the Text Fieldtype
+	 *
+	 */
+	public function init() {
+		parent::init();
+		parent::allowTextFormatters(false);
+	}
+
+	/**
+	 * Return the associated Inputfield
+	 *
+	 */
+	public function getInputfield(Page $page, Field $field) {
+		$inputField = $this->modules->get('InputfieldColorPicker'); 
+		return $inputField; 
+	}
+
+	/**
+	 * Return the database schema in specified format
+	 *
+	 */
+	public function getDatabaseSchema(Field $field) {
+		$schema = parent::getDatabaseSchema($field); 
+		return $schema;
+	}
+
+	/**
+	 * Return the fields required to configure an instance of FieldtypeText
+	 *
+	 */
+	public function ___getConfigInputfields(Field $field) {
+		$inputfields = parent::___getConfigInputfields($field);
+		return $inputfields; 
+	}
+
+}

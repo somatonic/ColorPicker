@@ -17,18 +17,15 @@ class InputfieldColorPicker extends Inputfield {
 		return array(
 			'title' => 'ColorPicker',
 			'version' => 100,
-			'summary' => 'Provides and ColorPicker interface for defining hex color.',
-			'permanent' => false, 
-			'autoload' => false,
-			'requires' => array("FieldtypeColorPicker") 
+			'summary' => 'Chose your colors the easy way.',
+			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
+			'requires' => array("FieldtypeColorPicker")
 			);
 	}
 
 	public function __construct() {
 		parent::__construct();
-		$this->setAttribute('type', 'hidden'); 
-		$this->setAttribute('size', 10); 
-		$this->setAttribute('maxlength', self::defaultMaxlength); 
+		$this->setAttribute('type', 'hidden');
 	}
 
 
@@ -36,7 +33,6 @@ class InputfieldColorPicker extends Inputfield {
 		parent::init();
 		$this->config->styles->add($this->config->urls->InputfieldColorPicker . "colorpicker/css/colorpicker.css");
 		$this->config->scripts->add($this->config->urls->InputfieldColorPicker . "colorpicker/js/colorpicker.js");
-		
 	}
 
 
@@ -57,7 +53,7 @@ class InputfieldColorPicker extends Inputfield {
 		},
 		onChange: function (hsb, hex, rgb) {
 			$('#ColorPicker_$this->name').css('backgroundColor', '#' + hex);
-			$('#Inputfield_$this->name').val(hex);
+			$('#Inputfield_$this->name').val(hex).trigger('change');
 		}
 	});
 
@@ -67,51 +63,4 @@ _OUT;
 
 		return $out; 
 	}
-
-	public function getAttributes() {
-		$attrs = parent::getAttributes();
-		if(empty($attrs['size'])) {
-			unset($attrs['size']); 
-			$attrs['class'] = (empty($attrs['class']) ? '' : $attrs['class'] . ' ') . 'InputfieldMaxWidth';
-		}
-		return $attrs; 
-	}
-
-	public function setAttribute($key, $value) {
-
-		if($key == 'maxlength' && !(int) $value) $value = ''; // blank string prevents a maxlength='0' attribute
-
-		if($key == 'value') { 
-			$value = trim($value); 
-			$maxlength = (int) $this->attr('maxlength'); 
-			if($maxlength > 0) $value = substr($value, 0, $maxlength); 
-		}
-
-		return parent::setAttribute($key, $value); 
-	}
-
-	public function ___getConfigInputfields() {
-		$inputfields = parent::___getConfigInputfields();
-
-		$field = $this->modules->get('InputfieldInteger');
-		$field->setAttribute('name', 'size'); 
-		$field->label = 'Size';
-		$field->setAttribute('value', $this->attr('size')); 
-		$field->setAttribute('size', 4); 
-		$field->description = 'The displayed width of this field (in characters). Set to 0 for full width.'; 
-		$inputfields->append($field);
-
-		$field = $this->modules->get('InputfieldInteger');
-		$field->setAttribute('name', 'maxlength'); 
-		$field->label = 'Maxlength';
-		$field->setAttribute('value', $this->attr('maxlength')); 
-		$field->setAttribute('size', 4); 
-		$field->description = 'The maximum length (in characters) that are allowed by this field.'; 
-		$inputfields->append($field);
-
-		return $inputfields; 
-	}
-
-
-	
 }

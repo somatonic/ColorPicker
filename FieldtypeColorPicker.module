@@ -14,36 +14,36 @@
  *
  */
 
-class FieldtypeColorPicker extends FieldtypeText {
+class FieldtypeColorPicker extends Fieldtype {
 
 
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',
 			'version' => 100,
-			'summary' => 'Field that stores a hex color as string in a text field. Color is picked using a jQuery ColorPicker Plugin by http://www.eyecon.ro/colorpicker/',
-			'permanent' => false,
-			'autoload' => false,
+			'summary' => 'Fieldtype that stores a HEX color. Color can be picked using a jQuery ColorPicker Plugin by http://www.eyecon.ro/colorpicker/',
+			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
 			'installs' => 'InputfieldColorPicker'
 			);
 	}
-
 	/**
-	 * Initialize the Text Fieldtype
+	 * Return the default blank value
 	 *
 	 */
-	public function init() {
-		parent::init();
-		parent::allowTextFormatters(false);
+	public function getBlankValue(Page $page, Field $field) {
+		return 'FFFFFF';
 	}
-
 	/**
-	 * Return the associated Inputfield
+	 * Return the associated InputfieldColorPicker
 	 *
 	 */
 	public function getInputfield(Page $page, Field $field) {
 		$inputField = $this->modules->get('InputfieldColorPicker'); 
-		return $inputField; 
+		return $inputField;
+	}
+	
+	public function sanitizeValue(Page $page, Field $field, $value) {
+		return strtoupper(substr($value, 0, 6));
 	}
 
 	/**
@@ -51,17 +51,9 @@ class FieldtypeColorPicker extends FieldtypeText {
 	 *
 	 */
 	public function getDatabaseSchema(Field $field) {
-		$schema = parent::getDatabaseSchema($field); 
+		$schema = parent::getDatabaseSchema($field);
+		$schema['data'] = 'CHAR(6) NOT NULL'; // i.e. FFFFFF or 333333 (hex color codes)
 		return $schema;
-	}
-
-	/**
-	 * Return the fields required to configure an instance of FieldtypeText
-	 *
-	 */
-	public function ___getConfigInputfields(Field $field) {
-		$inputfields = parent::___getConfigInputfields($field);
-		return $inputfields; 
 	}
 
 }

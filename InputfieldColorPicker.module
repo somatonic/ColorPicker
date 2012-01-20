@@ -11,8 +11,6 @@
 
 class InputfieldColorPicker extends Inputfield {
 
-	const defaultMaxlength = 6; 
-
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',

@@ -29,8 +29,10 @@ class InputfieldColorPicker extends Inputfield {
 
 	public function init() {
 		parent::init();
-		$this->config->styles->add($this->config->urls->InputfieldColorPicker . "colorpicker/css/colorpicker.css");
-		$this->config->scripts->add($this->config->urls->InputfieldColorPicker . "colorpicker/js/colorpicker.js");
+		$conf = $this->moduleGetInfo();
+		$version = (int) $conf['version'];
+		$this->config->styles->add($this->config->urls->InputfieldColorPicker . "colorpicker/css/colorpicker.css?v={$version}");
+		$this->config->scripts->add($this->config->urls->InputfieldColorPicker . "colorpicker/js/colorpicker.js?v={$version}");
 	}
 
 
@@ -59,6 +61,6 @@ class InputfieldColorPicker extends Inputfield {
 
 _OUT;
 
-		return $out; 
+		return $out;
 	}
 }

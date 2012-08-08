@@ -4,7 +4,7 @@
  * An Inputfieldtype for handling Colors
  * used by the FieldtypeColorPicker
  *
- * 19.01.2012 by Philipp "Soma" Urlich
+ * 08.08.2012 by Philipp "Soma" Urlich
  * ColorPicker jQuery Plugin by http://www.eyecon.ro/colorpicker/
  *
  */
@@ -14,7 +14,7 @@ class InputfieldColorPicker extends Inputfield {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',
-			'version' => 100,
+			'version' => 101,
 			'summary' => 'Chose your colors the easy way.',
 			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
 			'requires' => array("FieldtypeColorPicker")
@@ -29,7 +29,7 @@ class InputfieldColorPicker extends Inputfield {
 
 	public function init() {
 		parent::init();
-		$conf = $this->moduleGetInfo();
+		$conf = $this->getModuleInfo();
 		$version = (int) $conf['version'];
 		$this->config->styles->add($this->config->urls->InputfieldColorPicker . "colorpicker/css/colorpicker.css?v={$version}");
 		$this->config->scripts->add($this->config->urls->InputfieldColorPicker . "colorpicker/js/colorpicker.js?v={$version}");

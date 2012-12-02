@@ -14,7 +14,7 @@ class InputfieldColorPicker extends Inputfield {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',
-			'version' => 101,
+			'version' => 102,
 			'summary' => 'Chose your colors the easy way.',
 			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
 			'requires' => array("FieldtypeColorPicker")
@@ -41,6 +41,7 @@ class InputfieldColorPicker extends Inputfield {
 		$out .= "<input " . $this->getAttributesString() . " /></p>";
 		$out .= <<<_OUT
 <script type='text/javascript'>
+$(function(){
 	$('#ColorPicker_$this->name').ColorPicker({
 		color: '#$this->value',
 		onShow: function (colpkr) {
@@ -56,7 +57,7 @@ class InputfieldColorPicker extends Inputfield {
 			$('#Inputfield_$this->name').val(hex).trigger('change');
 		}
 	});
-
+});
 </script>
 
 _OUT;

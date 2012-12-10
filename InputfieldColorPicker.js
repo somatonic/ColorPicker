@@ -1,3 +1,14 @@
+/**
+ * An Inputfieldtype for handling Colors
+ * used by the FieldtypeColorPicker/InputfieldColorPicker
+ *
+ * created by Philipp "Soma" Urlich
+ * ColorPicker jQuery Plugin by http://www.eyecon.ro/colorpicker/
+ *
+ * Licensed under LGPL3 http://www.gnu.org/licenses/lgpl-3.0.txt
+ *
+ */
+
 $(function(){
     $('div[id^=ColorPicker_]').each(function(){
         var $colorpicker = $(this);

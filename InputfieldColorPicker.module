@@ -4,8 +4,10 @@
  * An Inputfieldtype for handling Colors
  * used by the FieldtypeColorPicker
  *
- * 08.08.2012 by Philipp "Soma" Urlich
+ * created by Philipp "Soma" Urlich
  * ColorPicker jQuery Plugin by http://www.eyecon.ro/colorpicker/
+ *
+ * Licensed under LGPL3 http://www.gnu.org/licenses/lgpl-3.0.txt
  *
  */
 
@@ -24,44 +26,32 @@ class InputfieldColorPicker extends Inputfield {
 	public function __construct() {
 		parent::__construct();
 		$this->setAttribute('type', 'hidden');
+		//$this->setAttribute('size', 6);
 	}
 
-
+	/**
+	 * inputfield is loaded
+	 */
 	public function init() {
 		parent::init();
 		$conf = $this->getModuleInfo();
 		$version = (int) $conf['version'];
+		// append script needed for the inputfield
 		$this->config->styles->add($this->config->urls->InputfieldColorPicker . "colorpicker/css/colorpicker.css?v={$version}");
-		$this->config->scripts->add($this->config->urls->InputfieldColorPicker . "colorpicker/js/colorpicker.js?v={$version}");
+		$this->config->scripts->add($this->config->urls->InputfieldColorPicker . "colorpicker/js/colorpicker.min.js?v={$version}");
 	}
 
-
+	/**
+	 * render the markup for this iputfield
+	 * @return string html markup
+	 */
 	public function ___render() {
-		$out = "\n<p><div id='ColorPicker_$this->name' style='border:2px solid #444;display:block;width:40px;height:40px;background-color:#".$this->value."'></div>";
+		$default_value = $this->hasFieldtype->getDefaultValue($this->page, $this->fields->get($this->name));
+		$out = "\n<p><div id='ColorPicker_$this->name' style='border:2px solid #444;display:block;width:40px;height:40px;background-color:#".$this->value."' data-color='".$this->value."'></div>";
 		$out .= "<input " . $this->getAttributesString() . " /></p>";
-		$out .= <<<_OUT
-<script type='text/javascript'>
-$(function(){
-	$('#ColorPicker_$this->name').ColorPicker({
-		color: '#$this->value',
-		onShow: function (colpkr) {
-			$(colpkr).fadeIn(500);
-			return false;
-		},
-		onHide: function (colpkr) {
-			$(colpkr).fadeOut(500);
-			return false;
-		},
-		onChange: function (hsb, hex, rgb) {
-			$('#ColorPicker_$this->name').css('backgroundColor', '#' + hex);
-			$('#Inputfield_$this->name').val(hex).trigger('change');
-		}
-	});
-});
-</script>
-
-_OUT;
-
+		$out .= "<a class='ColorPickerReset' href='#' data-default='$default_value'>" . $this->_('reset color') . "</a>";
 		return $out;
 	}
+
+
 }

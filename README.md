@@ -1,4 +1,4 @@
-ColorPicker 1.0.2
+ColorPicker 1.0.3
 =====================
 
 **Custom Fieldtype/Inputfield for ProcessWire 2.+**
@@ -18,14 +18,18 @@ The colorpicker used:
 
 ### Changelog
 
-**1.0.2**
+**1.0.3**
 
 - added support for default value
 - added reset link to set back to default color
 
-**1.0.1**
+**1.0.2**
 
 - Fixed issue with colorpicker not working when used in tabs
+
+**1.0.1**
+
+- Remove lots of code not needed. Cleanup.
 
 **1.0.0**
 

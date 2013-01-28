@@ -16,8 +16,8 @@ class InputfieldColorPicker extends Inputfield {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',
-			'version' => 103,
-			'summary' => 'Chose your colors the easy way.',
+			'version' => 104,
+			'summary' => 'Choose your colors the easy way.',
 			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
 			'requires' => array("FieldtypeColorPicker")
 			);
@@ -26,7 +26,6 @@ class InputfieldColorPicker extends Inputfield {
 	public function __construct() {
 		parent::__construct();
 		$this->setAttribute('type', 'hidden');
-		//$this->setAttribute('size', 6);
 	}
 
 	/**
@@ -46,10 +45,9 @@ class InputfieldColorPicker extends Inputfield {
 	 * @return string html markup
 	 */
 	public function ___render() {
-		$default_value = $this->hasFieldtype->getDefaultValue($this->page, $this->fields->get($this->name));
 		$out = "\n<p><div id='ColorPicker_$this->name' style='border:2px solid #444;display:block;width:40px;height:40px;background-color:#".$this->value."' data-color='".$this->value."'></div>";
 		$out .= "<input " . $this->getAttributesString() . " /></p>";
-		$out .= "<a class='ColorPickerReset' href='#' data-default='$default_value'>" . $this->_('reset color') . "</a>";
+		$out .= "<a class='ColorPickerReset' href='#' data-default='{$this->default}'>" . $this->_('reset color') . "</a>";
 		return $out;
 	}
 

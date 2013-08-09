@@ -12,15 +12,50 @@
 
 class FieldtypeColorPicker extends Fieldtype {
 
+	protected $defaults = array(
+		'defaultValue' => "",
+		'swatchValue' => ""
+		);
 
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',
 			'version' => 104,
-			'summary' => 'Fieldtype that stores a HEX color. Color can be picked using a jQuery ColorPicker Plugin by http://www.eyecon.ro/colorpicker/',
+			'summary' => 'Fieldtype that stores a HEX color or the value transparent. Color can be picked using a jQuery ColorPicker Plugin by http://www.eyecon.ro/colorpicker/',
 			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
 			'installs' => 'InputfieldColorPicker'
 			);
+	}
+
+	public function __construct() {
+		require_once(dirname(__FILE__) . '/ColorSwatch.php');
+	}
+
+	/**
+	 * Format value for output
+	 *
+	 */
+	public function ___formatValue(Page $page, Field $field, $value) {
+		return $value;
+	}
+
+	/**
+	 * get Inputfield for this fieldtype, set config attributes so they can be used in the inputfield
+	 *
+	 */
+	public function getInputfield(Page $page, Field $field) {
+		$inputfield = $this->modules->get('InputfieldColorPicker');
+		$inputfield->set('defaultValue', (strlen(trim($field->defaultValue)) > 0) ? $field->defaultValue : $this->defaults['defaultValue']);
+		$inputfield->set('swatchValue', $field->swatchValue ? $field->swatchValue : $this->defaults['swatchValue']);
+		return $inputfield;
+	}
+
+	/**
+	 * there's none compatible
+	 *
+	 */
+	public function ___getCompatibleFieldtypes(Field $field) {
+		return null;
 	}
 
 	/**
@@ -28,23 +63,65 @@ class FieldtypeColorPicker extends Fieldtype {
 	 *
 	 */
 	public function getBlankValue(Page $page, Field $field) {
-		return $field->default ? $field->default : '';
-	}
-
-	/**
-	 * Return the associated InputfieldColorPicker
-	 *
-	 */
-	public function getInputfield(Page $page, Field $field) {
-		$inputField = $this->modules->get('InputfieldColorPicker');
-		return $inputField;
+		
+		$colorswatch = new ColorSwatch();
+		return $colorswatch;
 	}
 
 	/**
 	 * sanitize the HEX value and cut off characters if longer than 6
 	 */
 	public function sanitizeValue(Page $page, Field $field, $value) {
-		return strtoupper(substr($value, 0, 6));
+	
+		if(!$value instanceof ColorSwatch) $value = $this->getBlankValue($page, $field);
+
+		// report any changes to the field values
+		if($value->isChanged('color')) $page->trackChange($field->name);
+
+		// handle default values if field values aren't yet saved in db
+
+		// if no defaultValue defined we don't need to go further
+		if(strlen($field->defaultValue) == 0) return $value;
+
+		// if empty values return the field default
+		if(empty($value->color)) {
+
+			$value->color = $field->defaultValue;
+		}
+		return $value;
+	}
+
+	/**
+	 * get values converted when fetched from db
+	 *
+	 */
+	public function ___wakeupValue(Page $page, Field $field, $value) {
+
+		// get blank range
+		$colorswatch = $this->getBlankValue($page, $field);
+		// populate the range
+		$colorswatch->color = $value;
+
+		return $colorswatch;
+	}
+
+	/**
+	 * return converted from object to array
+	 *
+	 */
+	public function ___sleepValue(Page $page, Field $field, $value) {
+
+		$colorswatch = $value;
+
+		// throw error if value is not of the right type
+		if(!$colorswatch instanceof ColorSwatch)
+			throw new WireException("Expecting an instance of ColorSwatch");
+
+		$sleepValue = array(
+			'data' => $colorswatch->color
+			);
+
+		return $sleepValue;
 	}
 
 	/**
@@ -52,8 +129,9 @@ class FieldtypeColorPicker extends Fieldtype {
 	 *
 	 */
 	public function getDatabaseSchema(Field $field) {
+
 		$schema = parent::getDatabaseSchema($field);
-		$schema['data'] = 'CHAR(6) NOT NULL'; // i.e. FFFFFF or 333333 (hex color codes)
+		$schema['data'] = 'CHAR(11) NOT NULL'; // i.e. FFFFFF or 333333 (hex color codes) or transparent
 		return $schema;
 	}
 
@@ -63,13 +141,22 @@ class FieldtypeColorPicker extends Fieldtype {
 	 */
 	public function ___getConfigInputfields(Field $field) {
 		$inputfields = parent::___getConfigInputfields($field);
+
 		$f = $this->modules->get("InputfieldText");
-		$f->attr('name', 'default');
-		$f->attr('size', 6);
-		$f->attr('value', $field->default);
+		$f->attr('name', 'defaultValue');
+		$f->attr('size', 11);
+		$f->attr('value', $field->defaultValue ? $field->defaultValue : $this->defaults['defaultValue']);
 		$f->label = $this->_('Default Value');
-		$f->description = $this->_('Set the default HEX value for the field. For example "EAEAEA". To have a blank value leave this field empty.');
+		$f->description = $this->_('Set the default HEX value (or transparent) for the field. For example "EAEAEA". To have a blank value leave this field empty.');
 		$inputfields->append($f);
+
+		$f = $this->modules->get("InputfieldTextarea");
+		$f->attr('name', 'swatchValue');
+		$f->attr('value', $field->swatchValue ? $field->swatchValue : $this->defaults['swatchValue']);
+		$f->label = $this->_('Color Swatch');
+		$f->description = $this->_('Comma seperated HEX values to fill the color swatch with. For example "transparent,FFFFFF,000000". Leave this field empty if you do not want to use the color swatch.');
+		$inputfields->append($f);
+
 		return $inputfields;
 	}
 

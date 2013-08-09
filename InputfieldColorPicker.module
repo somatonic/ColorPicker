@@ -24,8 +24,8 @@ class InputfieldColorPicker extends Inputfield {
 	}
 
 	public function __construct() {
-		require_once(dirname(__FILE__) . '/ColorSwatch.php');
 		parent::__construct();
+		$this->setAttribute('type', 'hidden');
 	}
 
 	/**
@@ -40,39 +40,23 @@ class InputfieldColorPicker extends Inputfield {
 		$this->config->scripts->add($this->config->urls->InputfieldColorPicker . "colorpicker/js/colorpicker.min.js?v={$version}");
 	}
 
-
-	public function setAttribute($key, $value) {
-
-		if($key == 'value' && !$value instanceof ColorSwatch && !is_null($value)) {
-			throw new WireException("This input only accepts a ColorSwatch for it's value");
-		}
-
-		return parent::setAttribute($key, $value);
-	}
-
 	/**
 	 * render the markup for this iputfield
 	 * @return string html markup
 	 */
 	public function ___render() {
 
-		$out = "";
+		$out  = "\n<p><div id='ColorPicker_$this->name' style='border:2px solid #444;display:block;";
+		$out .= "width:40px;height:40px;background-color:";
+		$out .= $this->value=="transparent" 
+				? $this->value.";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);" 
+				: "#".$this->value.";background-image:none";
+		$out .= "' data-color='".$this->value."'></div>";
+		$out .= "<input " . $this->getAttributesString() . " /></p>";
+		$out .= "<a class='ColorPickerReset' href='#' data-default='{$this->default}' ";
+		$out .= "data-modurl='{$this->config->urls->InputfieldColorPicker}'>" . $this->_('reset color') . "</a>";
 
-		// config
-		$value = $this->attr('value');
-		$color = $value->color ? $value->color : $this->defaultValue;
-		$swatch = $this->swatchValue;
-
-		$out .= "\n<p><div id='ColorPicker_$this->name' style='border:2px solid #444;display:block;width:40px;height:40px;background-color:";
-
-		$out .= $color=="transparent" 
-				? $color.";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);" 
-				: "#".$color.";background-image:none";
-
-		$out .= "' data-color='".$color."'></div>";
-		$out .= "<input id='Inputfield_{$this->name}' name='{$this->name}' value='".$color."' type='hidden' /></p>";
-
-		$out .= "<a class='ColorPickerReset' href='#' data-default='{$this->defaultValue}' data-modurl='{$this->config->urls->InputfieldColorPicker}'>" . $this->_('reset color') . "</a>";
+		$swatch = trim($this->swatch);
 
 		if(!empty($swatch)) {
 
@@ -92,25 +76,8 @@ class InputfieldColorPicker extends Inputfield {
 				$out .= "</ul>";
 			}
 		}
-		
+
 		return $out;
-	}
-
-
-	public function ___processInput(WireInputData $input) {
-
-		$name = $this->attr('name');
-		$colorswatch = $this->attr('value');
-
-		if(isset($input->$name)) {
-			// check for changes in min value
-			if($colorswatch->color != $input->$name){
-				$colorswatch->set('color',$input->$name);
-				$this->trackChange('value');
-			}
-		}
-
-		return $this;
 	}
 
 

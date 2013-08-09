@@ -1,4 +1,4 @@
-ColorPicker 1.0.5
+ColorPicker 1.0.6
 =====================
 
 **Custom Fieldtype/Inputfield for ProcessWire 2.+**
@@ -17,6 +17,11 @@ The colorpicker used:
 [ColorPicker jQuery Plugin by Eyecon](http://www.eyecon.ro/colorpicker/)
 
 ### Changelog
+
+**1.0.6**
+
+- added support for color swatches for easy predefining and selecting color values
+- added "transp" support for a transparent value (empty)
 
 **1.0.5**
 

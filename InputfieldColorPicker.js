@@ -36,12 +36,16 @@ $(function(){
         $(this).parent().find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('default'));
         $(this).parent().find('div[id^=ColorPicker_]')
             .css('backgroundColor', color)
+            .css('background-image', 'none')
             .attr('data-color', $(this).data('default'));
+        if(color=="transparent") {
+            $(this).parent().find('div[id^=ColorPicker_]')
+                .css('background-image', 'url(/site/modules/FieldtypeColorPicker/transparent.gif)');
+        }
     });
     $('a.ColorPickerSwatch').bind('click',function(e){
         e.preventDefault();
         var color = $(this).data('color') && $(this).data('color')!="transparent" ? "#"+$(this).data('color') : 'transparent';
-
         $(this).parent().parent().parent().find('input').val($(this).data('color')).trigger('change');
         $(this).parent().parent().parent().find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('color'));
         $(this).parent().parent().parent().find('div[id^=ColorPicker_]')

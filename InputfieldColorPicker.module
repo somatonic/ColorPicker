@@ -24,8 +24,8 @@ class InputfieldColorPicker extends Inputfield {
 	}
 
 	public function __construct() {
+		require_once(dirname(__FILE__) . '/ColorSwatch.php');
 		parent::__construct();
-		$this->setAttribute('type', 'hidden');
 	}
 
 	/**
@@ -40,15 +40,77 @@ class InputfieldColorPicker extends Inputfield {
 		$this->config->scripts->add($this->config->urls->InputfieldColorPicker . "colorpicker/js/colorpicker.min.js?v={$version}");
 	}
 
+
+	public function setAttribute($key, $value) {
+
+		if($key == 'value' && !$value instanceof ColorSwatch && !is_null($value)) {
+			throw new WireException("This input only accepts a ColorSwatch for it's value");
+		}
+
+		return parent::setAttribute($key, $value);
+	}
+
 	/**
 	 * render the markup for this iputfield
 	 * @return string html markup
 	 */
 	public function ___render() {
-		$out = "\n<p><div id='ColorPicker_$this->name' style='border:2px solid #444;display:block;width:40px;height:40px;background-color:#".$this->value."' data-color='".$this->value."'></div>";
-		$out .= "<input " . $this->getAttributesString() . " /></p>";
-		$out .= "<a class='ColorPickerReset' href='#' data-default='{$this->default}'>" . $this->_('reset color') . "</a>";
+
+		$out = "";
+
+		// config
+		$value = $this->attr('value');
+		$color = $value->color ? $value->color : $this->defaultValue;
+		$swatch = $this->swatchValue;
+
+		$out .= "\n<p><div id='ColorPicker_$this->name' style='border:2px solid #444;display:block;width:40px;height:40px;background-color:";
+
+		$out .= $color=="transparent" 
+				? $color.";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);" 
+				: "#".$color.";background-image:none";
+
+		$out .= "' data-color='".$color."'></div>";
+		$out .= "<input id='Inputfield_{$this->name}' name='{$this->name}' value='".$color."' type='hidden' /></p>";
+
+		$out .= "<a class='ColorPickerReset' href='#' data-default='{$this->defaultValue}'>" . $this->_('reset color') . "</a>";
+
+		if(!empty($swatch)) {
+
+			$csvalues = explode(",", $swatch);
+
+			if(count($csvalues)) {
+
+				$out .= "<ul>";
+
+				foreach($csvalues as $csvalue) {
+
+					$out .= "<li style='float:left;margin:0 4px 4px 0;border:1px solid #444;width:16px;height:16px;background-color:";
+					$out .= $csvalue=="transparent" ? $csvalue.";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);" : "#".$csvalue;
+					$out .= "'><a class='ColorPickerSwatch' href='#' data-color='{$csvalue}' style='width:16px;height:16px;display:block;'></a></li>";
+				}
+
+				$out .= "</ul>";
+			}
+		}
+		
 		return $out;
+	}
+
+
+	public function ___processInput(WireInputData $input) {
+
+		$name = $this->attr('name');
+		$colorswatch = $this->attr('value');
+
+		if(isset($input->$name)) {
+			// check for changes in min value
+			if($colorswatch->color != $input->$name){
+				$colorswatch->set('color',$input->$name);
+				$this->trackChange('value');
+			}
+		}
+
+		return $this;
 	}
 
 

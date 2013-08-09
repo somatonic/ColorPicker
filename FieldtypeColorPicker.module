@@ -16,7 +16,7 @@ class FieldtypeColorPicker extends Fieldtype {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',
-			'version' => 104,
+			'version' => 105,
 			'summary' => 'Fieldtype that stores a HEX color. Color can be picked using a jQuery ColorPicker Plugin by http://www.eyecon.ro/colorpicker/',
 			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
 			'installs' => 'InputfieldColorPicker'
@@ -37,6 +37,7 @@ class FieldtypeColorPicker extends Fieldtype {
 	 */
 	public function getInputfield(Page $page, Field $field) {
 		$inputField = $this->modules->get('InputfieldColorPicker');
+		$inputField->set("default", $field->default);
 		return $inputField;
 	}
 

@@ -40,16 +40,6 @@ class FieldtypeColorPicker extends Fieldtype {
 	}
 
 	/**
-	 *
-	 * Add mapping to different name for use in page selectors
-	 * This enables to use it like "range.min=100, range.max<=200"
-	 */
-	public function getMatchQuery($query, $table, $subfield, $operator, $value) {
-		if($subfield == 'color') $subfield = 'data';
-		return parent::getMatchQuery($query, $table, $subfield, $operator, $value);
-	}
-
-	/**
 	 * get Inputfield for this fieldtype, set config attributes so they can be used in the inputfield
 	 *
 	 */

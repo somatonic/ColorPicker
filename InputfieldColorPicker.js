@@ -24,6 +24,7 @@ $(function(){
             },
             onChange: function (hsb, hex, rgb) {
                 $colorpicker.css('backgroundColor', '#' + hex);
+                $colorpicker.css('background-image', 'none');
                 $colorpicker.next('input').val(hex).trigger('change');
             }
         });
@@ -36,12 +37,17 @@ $(function(){
         $(this).parent().find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('default'));
         $(this).parent().find('div[id^=ColorPicker_]')
             .css('backgroundColor', color)
+            .css('background-image', 'none')
             .attr('data-color', $(this).data('default'));
+        if(color=="transparent") {
+            var modurl = $(this).data('modurl');
+            $(this).parent().find('div[id^=ColorPicker_]')
+                .css('background-image', 'url('+modurl+'transparent.gif)');
+        }
     });
-    $('a.ColorPickerSwatch').bind('click',function(e){
+    $('div.ColorPickerSwatch').bind('click',function(e){
         e.preventDefault();
         var color = $(this).data('color') && $(this).data('color')!="transparent" ? "#"+$(this).data('color') : 'transparent';
-
         $(this).parent().parent().parent().find('input').val($(this).data('color')).trigger('change');
         $(this).parent().parent().parent().find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('color'));
         $(this).parent().parent().parent().find('div[id^=ColorPicker_]')
@@ -49,8 +55,9 @@ $(function(){
             .css('background-image', 'none')
             .attr('data-color', $(this).data('color'));
         if(color=="transparent") {
+            var modurl = $(this).parent().parent().parent().find('.ColorPickerReset').data('modurl');
             $(this).parent().parent().parent().find('div[id^=ColorPicker_]')
-                .css('background-image', 'url(/site/modules/FieldtypeColorPicker/transparent.gif)');
+                .css('background-image', 'url('+modurl+'transparent.gif)');
         }
     });
 });

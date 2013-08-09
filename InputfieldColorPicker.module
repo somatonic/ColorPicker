@@ -72,7 +72,7 @@ class InputfieldColorPicker extends Inputfield {
 		$out .= "' data-color='".$color."'></div>";
 		$out .= "<input id='Inputfield_{$this->name}' name='{$this->name}' value='".$color."' type='hidden' /></p>";
 
-		$out .= "<a class='ColorPickerReset' href='#' data-default='{$this->defaultValue}'>" . $this->_('reset color') . "</a>";
+		$out .= "<a class='ColorPickerReset' href='#' data-default='{$this->defaultValue}' data-modurl='{$this->config->urls->InputfieldColorPicker}'>" . $this->_('reset color') . "</a>";
 
 		if(!empty($swatch)) {
 
@@ -86,7 +86,7 @@ class InputfieldColorPicker extends Inputfield {
 
 					$out .= "<li style='float:left;margin:0 4px 4px 0;border:1px solid #444;width:16px;height:16px;background-color:";
 					$out .= $csvalue=="transparent" ? $csvalue.";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);" : "#".$csvalue;
-					$out .= "'><a class='ColorPickerSwatch' href='#' data-color='{$csvalue}' style='width:16px;height:16px;display:block;'></a></li>";
+					$out .= "'><div class='ColorPickerSwatch' href='#' data-color='{$csvalue}' style='width:16px;height:16px;display:block;cursor:pointer;' title='{$csvalue}'></div></li>";
 				}
 
 				$out .= "</ul>";

@@ -86,7 +86,7 @@ class InputfieldColorPicker extends Inputfield {
 
 					$out .= "<li style='float:left;margin:0 4px 4px 0;border:1px solid #444;width:16px;height:16px;background-color:";
 					$out .= $csvalue=="transparent" ? $csvalue.";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);" : "#".$csvalue;
-					$out .= "'><a class='ColorPickerSwatch' href='#' data-color='{$csvalue}' style='width:16px;height:16px;display:block;'></a></li>";
+					$out .= "'><a class='ColorPickerSwatch' href='#' data-color='{$csvalue}' style='width:16px;height:16px;display:block;' title='{$csvalue}'></a></li>";
 				}
 
 				$out .= "</ul>";

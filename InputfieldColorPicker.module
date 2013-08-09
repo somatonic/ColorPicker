@@ -45,13 +45,13 @@ class InputfieldColorPicker extends Inputfield {
 	 * @return string html markup
 	 */
 	public function ___render() {
-
+		$value = $this->value ? $this->value : $this->default;
 		$out  = "\n<p><div id='ColorPicker_$this->name' style='border:2px solid #444;display:block;";
 		$out .= "width:40px;height:40px;background-color:";
-		$out .= $this->value=="transparent" 
-				? $this->value.";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);" 
-				: "#".$this->value.";background-image:none";
-		$out .= "' data-color='".$this->value."'></div>";
+		$out .= $value=="transparent" 
+				? $value.";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);" 
+				: "#".$value.";background-image:none";
+		$out .= "' data-color='".$value."'></div>";
 		$out .= "<input " . $this->getAttributesString() . " /></p>";
 		$out .= "<a class='ColorPickerReset' href='#' data-default='{$this->default}' ";
 		$out .= "data-modurl='{$this->config->urls->InputfieldColorPicker}'>" . $this->_('reset color') . "</a>";

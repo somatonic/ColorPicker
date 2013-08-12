@@ -1,4 +1,4 @@
-ColorPicker 1.0.6
+ColorPicker 1.0.7
 =====================
 
 **Custom Fieldtype/Inputfield for ProcessWire 2.+**
@@ -18,9 +18,17 @@ The colorpicker used:
 
 ### Changelog
 
+**1.0.7**
+
+- fixed typecasting bug: when a color value is numeric it should be
+typecasted to string. This prevents the color picker window from not
+being launched. @Rayden
+- fixed small visualisation issue with the color swatch preventing a
+box collapse with css. @Rayden
+
 **1.0.6**
 
-- added support for color swatches for easy predefining and selecting color values
+- added support for color swatches for easy predefining and selecting color values @Rayden
 - added "transp" support for a transparent value (empty)
 
 **1.0.5**

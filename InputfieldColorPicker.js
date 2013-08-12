@@ -35,13 +35,13 @@ $(function(){
 
     $('a.ColorPickerReset').on('click',function(e){
         e.preventDefault();
-        var color = $(this).data('default') && $(this).data('default') != 'transp' ? '#' + $(this).data('default') : 'transp';
+        var color = $(this).data('default') && $(this).data('default') != 'transp' ? '#' + $(this).data('default').toString() : 'transp';
         $(this).parent().find('input').val($(this).data('default')).trigger('change');
-        $(this).parent().find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('default'));
+        $(this).parent().find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('default').toString());
         $(this).parent().find('div[id^=ColorPicker_]')
             .css('backgroundColor', color)
             .css('background-image', 'none')
-            .attr('data-color', $(this).data('default'));
+            .attr('data-color', $(this).data('default').toString());
         if(color == 'transp') {
             var modurl = $(this).data('modurl');
             $(this).parent().find('div[id^=ColorPicker_]')
@@ -52,13 +52,13 @@ $(function(){
     /* additions (swatches) by @Rayden */
     $('div.ColorPickerSwatch').on('click',function(e){
         e.preventDefault();
-        var color = $(this).data('color') && $(this).data('color') != 'transp' ? '#' + $(this).data('color') : 'transp';
+        var color = $(this).data('color') && $(this).data('color') != 'transp' ? '#' + $(this).data('color').toString() : 'transp';
         $(this).closest('.ui-widget-content').find('input').val($(this).data('color')).trigger('change');
         $(this).closest('.ui-widget-content').find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('color').toString());
         $(this).closest('.ui-widget-content').find('div[id^=ColorPicker_]')
             .css('backgroundColor', color)
             .css('background-image', 'none')
-            .attr('data-color', $(this).data('color'));
+            .attr('data-color', $(this).data('color').toString());
         if(color == 'transp') {
             var modurl = $(this).closest('.ui-widget-content').find('.ColorPickerReset').data('modurl');
             $(this).closest('.ui-widget-content').find('div[id^=ColorPicker_]')

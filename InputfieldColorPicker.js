@@ -12,8 +12,10 @@
 $(function(){
     $('div[id^=ColorPicker_]').each(function(){
         var $colorpicker = $(this);
+        // prevent box collapse
+        $colorpicker.parent().css({overflow: 'auto'});
         $colorpicker.ColorPicker({
-            color: $(this).data('color'),
+            color: $(this).data('color').toString(),
             onShow: function (colpkr) {
                 $(colpkr).fadeIn(500);
                 return false;
@@ -52,7 +54,7 @@ $(function(){
         e.preventDefault();
         var color = $(this).data('color') && $(this).data('color') != 'transp' ? '#' + $(this).data('color') : 'transp';
         $(this).closest('.ui-widget-content').find('input').val($(this).data('color')).trigger('change');
-        $(this).closest('.ui-widget-content').find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('color'));
+        $(this).closest('.ui-widget-content').find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('color').toString());
         $(this).closest('.ui-widget-content').find('div[id^=ColorPicker_]')
             .css('backgroundColor', color)
             .css('background-image', 'none')

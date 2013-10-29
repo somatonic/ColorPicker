@@ -53,15 +53,15 @@ $(function(){
     $('div.ColorPickerSwatch').on('click',function(e){
         e.preventDefault();
         var color = $(this).data('color') && $(this).data('color') != 'transp' ? '#' + $(this).data('color').toString() : 'transp';
-        $(this).closest('.ui-widget-content').find('input').val($(this).data('color')).trigger('change');
-        $(this).closest('.ui-widget-content').find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('color').toString());
-        $(this).closest('.ui-widget-content').find('div[id^=ColorPicker_]')
+        $(this).closest('.ui-widget-content, .InputfieldContent').find('input').val($(this).data('color')).trigger('change');
+        $(this).closest('.ui-widget-content, .InputfieldContent').find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('color').toString());
+        $(this).closest('.ui-widget-content, .InputfieldContent').find('div[id^=ColorPicker_]')
             .css('backgroundColor', color)
             .css('background-image', 'none')
             .attr('data-color', $(this).data('color').toString());
         if(color == 'transp') {
-            var modurl = $(this).closest('.ui-widget-content').find('.ColorPickerReset').data('modurl');
-            $(this).closest('.ui-widget-content').find('div[id^=ColorPicker_]')
+            var modurl = $(this).closest('.ui-widget-content, .InputfieldContent').find('.ColorPickerReset').data('modurl');
+            $(this).closest('.ui-widget-content, .InputfieldContent').find('div[id^=ColorPicker_]')
                 .css('background-image', 'url(' + modurl + 'transparent.gif)');
         }
     });

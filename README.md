@@ -1,4 +1,4 @@
-ColorPicker 1.0.7
+ColorPicker 1.0.8
 =====================
 
 **Custom Fieldtype/Inputfield for ProcessWire 2.+**
@@ -17,6 +17,12 @@ The colorpicker used:
 [ColorPicker jQuery Plugin by Eyecon](http://www.eyecon.ro/colorpicker/)
 
 ### Changelog
+
+**1.0.8**
+
+- some maintenance, remove <p> not needed
+- remove overflow: auto
+_ colorpicker css fix input with box sizing coming from new admin theme
 
 **1.0.7**
 

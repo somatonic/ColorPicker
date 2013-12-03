@@ -12,8 +12,7 @@
 $(function(){
     $('div[id^=ColorPicker_]').each(function(){
         var $colorpicker = $(this);
-        // prevent box collapse
-        $colorpicker.parent().css({overflow: 'auto'});
+
         $colorpicker.ColorPicker({
             color: $(this).data('color').toString(),
             onShow: function (colpkr) {

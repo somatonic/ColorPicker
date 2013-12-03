@@ -1,3 +1,4 @@
+
 .colorpicker {
 	width: 356px;
 	height: 176px;
@@ -81,7 +82,8 @@
 	text-align: right;
 	margin: 0;
 	padding: 0;
-	height: 11px;
+	height: 15px;
+
 }
 .colorpicker_hex {
 	position: absolute;

@@ -18,7 +18,7 @@ class InputfieldColorPicker extends Inputfield {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',
-			'version' => 108,
+			'version' => 200,
 			'summary' => 'Choose your colors the easy way.',
 			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
 			'requires' => array("FieldtypeColorPicker")
@@ -55,6 +55,7 @@ class InputfieldColorPicker extends Inputfield {
 				: "#" . $this->value . "; background-image:none";
 		$out .= "' data-color='" . $this->value . "'></div>";
 		$out .= "<input " . $this->getAttributesString() . " />";
+		if($this->default == "0") $this->default = "000000";
 		$out .= "<a class='ColorPickerReset' href='#' data-default='{$this->default}' ";
 		$out .= "data-modurl='{$this->config->urls->InputfieldColorPicker}'>" . $this->_('reset color') . "</a>";
 
@@ -63,7 +64,7 @@ class InputfieldColorPicker extends Inputfield {
 		 */
 		$swatch = trim($this->swatch);
 
-		if(!empty($swatch)) {
+		if(strlen($swatch)) {
 
 			$csvalues = explode(",", trim($swatch));
 
@@ -73,6 +74,7 @@ class InputfieldColorPicker extends Inputfield {
 
 				foreach($csvalues as $csvalue) {
 					$csvalue = trim($csvalue);
+					if($csvalue == "0") $csvalue = "000000";
 					$out .= "<li style='float:left; margin:0 4px 4px 0; border:1px solid #444; width:16px; height:16px; background-color:";
 					$out .= $csvalue == "transp"
 							? $csvalue . ";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);"

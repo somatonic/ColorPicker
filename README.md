@@ -1,9 +1,17 @@
-ColorPicker 1.0.8
+ColorPicker 2.0.0
 =====================
 
 **Custom Fieldtype/Inputfield for ProcessWire 2.+**
 
 This module gives you a new custom Fieldtype. Let's you select a color using a Colorpicker jQuery Plugin. The color selected will be stored in HEX format uppercase: "EAEAEA";
+
+When creating a new field in the admin, you can set a default value. The default value will be set when creating a new page, and it will also be used for empty fields.
+
+The field supports a transparent value. In the field setting you can use the name "transp" to define it. When output formatting (2.0.0) of the field is enabled, the field will return "transparent" in template code.
+
+The field supports a "reset" button to be able to set it back to the default value.
+
+### How to use it
 
 To use it in your template as a background HEX color, you'd simple output the value and prefix it with a #:
 
@@ -11,12 +19,22 @@ To use it in your template as a background HEX color, you'd simple output the va
 echo "background-color: #" . $page->color;
 ```
 
-When creating a new field in the admin, you can set a default value the field should be prefilled with when creating a new page. The field supports a "reset" button to be able to set it back to the default value.
+Since of 2.0.0 you can enable output formatting of the field in the details settings. When enabled it will format value directly from AADDEE to "#AADDEE" and "transp" to "transparent".
+
+```
+echo "background-color: " . $page->color;
+```
 
 The colorpicker used:
 [ColorPicker jQuery Plugin by Eyecon](http://www.eyecon.ro/colorpicker/)
 
 ### Changelog
+
+
+**2.0.0**
+
+- Added output formatting option to format values with prefix "#" when output in template code.
+- Added checks for "0" values and returning them as "000000", just in case ProcessWire converts them to 0.
 
 **1.0.8**
 

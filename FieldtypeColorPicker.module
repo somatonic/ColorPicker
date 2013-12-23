@@ -32,6 +32,7 @@ class FieldtypeColorPicker extends Fieldtype {
 	 *
 	 */
 	public function getBlankValue(Page $page, Field $field) {
+		if($field->default == "0") $field->default = "000000";
 		return $field->default ? $field->default : '';
 	}
 

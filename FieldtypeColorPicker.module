@@ -20,7 +20,7 @@ class FieldtypeColorPicker extends Fieldtype {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',
-			'version' => 200,
+			'version' => 201,
 			'summary' => 'Fieldtype that stores a HEX color or the value transp. Color can be picked using a jQuery ColorPicker Plugin by http://www.eyecon.ro/colorpicker/ or from a configurable color swatch.',
 			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
 			'installs' => 'InputfieldColorPicker'
@@ -62,7 +62,7 @@ class FieldtypeColorPicker extends Fieldtype {
 		if(!$field->formatting) return $value;
 
 		if("transp" == strtolower($value)) return self::TRANSPARENT;
-		if($value == "0") $value = "00000";
+		if($value == "0") $value = "000000";
 
 		return self::HEX_PREFIX . $value;
 	}

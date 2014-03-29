@@ -30,6 +30,9 @@ The colorpicker used:
 
 ### Changelog
 
+**2.0.1**
+
+- Fixed default "000000" value issue in Fieldtype
 
 **2.0.0**
 

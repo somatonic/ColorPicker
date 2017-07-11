@@ -9,8 +9,9 @@
  *
  */
 
-$(function(){
-    $('div[id^=ColorPicker_]').each(function(){
+
+var initColorpicker = function () {
+    $('div[id^=ColorPicker_]:not(.ColorPickerLoaded)').each(function () {
         var $colorpicker = $(this);
 
         $colorpicker.ColorPicker({
@@ -30,18 +31,20 @@ $(function(){
             }
         });
 
+        $colorpicker.addClass("ColorPickerLoaded");
+
     });
 
     $('a.ColorPickerReset').on('click',function(e){
         e.preventDefault();
-        var color = $(this).data('default') && $(this).data('default') != 'transp' ? '#' + $(this).data('default').toString() : 'transparent';
+        var color = $(this).data('default') && $(this).data('default') !== 'transp' ? '#' + $(this).data('default').toString() : 'transparent';
         $(this).parent().find('input').val($(this).data('default')).trigger('change');
         $(this).parent().find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('default').toString());
         $(this).parent().find('div[id^=ColorPicker_]')
             .css('backgroundColor', color)
             .css('background-image', 'none')
             .attr('data-color', $(this).data('default').toString());
-        if(color == 'transparent') {
+        if (color === 'transparent') {
             var modurl = $(this).data('modurl');
             $(this).parent().find('div[id^=ColorPicker_]')
                 .css('background-image', 'url(' + modurl + 'transparent.gif)');
@@ -51,17 +54,21 @@ $(function(){
     /* additions (swatches) by @Rayden */
     $('div.ColorPickerSwatch').on('click',function(e){
         e.preventDefault();
-        var color = $(this).data('color') && $(this).data('color') != 'transp' ? '#' + $(this).data('color').toString() : 'transparent';
+        var color = $(this).data('color') && $(this).data('color') !== 'transp' ? '#' + $(this).data('color').toString() : 'transparent';
         $(this).closest('.ui-widget-content, .InputfieldContent').find('input').val($(this).data('color')).trigger('change');
         $(this).closest('.ui-widget-content, .InputfieldContent').find('div[id^=ColorPicker_]').ColorPickerSetColor($(this).data('color').toString());
         $(this).closest('.ui-widget-content, .InputfieldContent').find('div[id^=ColorPicker_]')
             .css('backgroundColor', color)
             .css('background-image', 'none')
             .attr('data-color', $(this).data('color').toString());
-        if(color == 'transparent') {
+        if (color === 'transparent') {
             var modurl = $(this).closest('.ui-widget-content, .InputfieldContent').find('.ColorPickerReset').data('modurl');
             $(this).closest('.ui-widget-content, .InputfieldContent').find('div[id^=ColorPicker_]')
                 .css('background-image', 'url(' + modurl + 'transparent.gif)');
         }
     });
-});
+};
+
+$(initColorpicker);
+$(document).on("repeateradd", "*", initColorpicker);
+$(document).on("reloaded", "*", initColorpicker);

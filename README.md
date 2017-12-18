@@ -1,7 +1,7 @@
-ColorPicker 2.0.0
+ColorPicker
 =====================
 
-**Custom Fieldtype/Inputfield for ProcessWire 2.+**
+**Custom Fieldtype/Inputfield for ProcessWire 2.+/3.+**
 
 This module gives you a new custom Fieldtype. Let's you select a color using a Colorpicker jQuery Plugin. The color selected will be stored in HEX format uppercase: "EAEAEA";
 
@@ -29,6 +29,12 @@ The colorpicker used:
 [ColorPicker jQuery Plugin by Eyecon](http://www.eyecon.ro/colorpicker/)
 
 ### Changelog
+
+**2.0.2**
+
+- fixed issue when field is in a Repeater or RepeaterMatrix
+- added support for ___markupValue() used in Lister
+
 
 **2.0.1**
 

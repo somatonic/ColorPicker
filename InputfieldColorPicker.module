@@ -18,7 +18,7 @@ class InputfieldColorPicker extends Inputfield {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'ColorPicker',
-			'version' => 202,
+			'version' => 203,
 			'summary' => 'Choose your colors the easy way.',
 			'href' => 'http://processwire.com/talk/topic/865-module-colorpicker/page__gopid__7340#entry7340',
 			'requires' => array("FieldtypeColorPicker")
@@ -70,16 +70,16 @@ class InputfieldColorPicker extends Inputfield {
 
 			if(count($csvalues)) {
 
-				$out .= "<ul>";
+				$out .= "<ul style='list-style-type: none; margin: 1em 0 0; padding: 0; overflow: hidden'>";
 
 				foreach($csvalues as $csvalue) {
 					$csvalue = trim($csvalue);
 					if($csvalue == "0") $csvalue = "000000";
-					$out .= "<li style='float:left; margin:0 4px 4px 0; border:1px solid #444; width:16px; height:16px; background-color:";
+					$out .= "<li style='display: inline-block; float:left; margin:0 4px 4px 0; border:1px solid #444; width:24px; height:24px; background-color:";
 					$out .= $csvalue == "transp"
 							? $csvalue . ";background-image:url({$this->config->urls->InputfieldColorPicker}transparent.gif);"
 							: "#" . $csvalue;
-					$out .= "'><div class='ColorPickerSwatch' href='#' data-color='{$csvalue}' style='width:16px;height:16px;display:block;cursor:pointer;' title='{$csvalue}'></div></li>";
+					$out .= "'><div class='ColorPickerSwatch' href='#' data-color='{$csvalue}' style='width:24px;height:24px;display:block;cursor:pointer;' title='{$csvalue}'></div></li>";
 				}
 
 				$out .= "</ul>";

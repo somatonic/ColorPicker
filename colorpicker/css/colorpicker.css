@@ -162,3 +162,9 @@
 .colorpicker_slider {
 	background-position: bottom;
 }
+
+
+.colorpicker_loaded:has(+ input:not([value])),
+.colorpicker_loaded:has(+ input[value=""]) {
+    background: linear-gradient(-45deg, white 47%, red 48%, red 52%, white 53%) !important;
+}

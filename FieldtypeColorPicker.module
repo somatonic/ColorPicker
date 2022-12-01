@@ -57,6 +57,7 @@ class FieldtypeColorPicker extends Fieldtype {
 	 */
 	public function ___formatValue(Page $page, Field $field, $value){
 
+		if(is_null($field->default)) $field->default='';
 		if(!$value) $value = trim($field->default);
 		if(!strlen($value)) return $value;
 		if(!$field->formatting) return $value;

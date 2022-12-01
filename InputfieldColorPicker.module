@@ -62,6 +62,7 @@ class InputfieldColorPicker extends Inputfield {
 		/**
 		 * add swatches for predefined color values | @Rayden
 		 */
+		if(is_null($this->swatch)) $this->swatch='';
 		$swatch = trim($this->swatch);
 
 		if(strlen($swatch)) {
